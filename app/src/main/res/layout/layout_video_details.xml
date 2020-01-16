@@ -20,6 +20,12 @@
 
             </com.google.android.youtube.player.YouTubePlayerView>
 
+            <ImageView
+                android:id="@+id/imgv_thumbnail"
+                android:layout_width="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_height="200dp" />
+
         </FrameLayout>
 
         <LinearLayout

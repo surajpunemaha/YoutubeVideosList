@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.bumptech.glide.Glide;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
@@ -19,18 +19,14 @@ import java.util.regex.Pattern;
 
 public class AdapterVideosRecycler extends RecyclerView.Adapter<AdapterVideosRecycler.DataHolder>
 {
-    private ArrayList<VideoDetails> al_videoDetails;
     private Activity activity;
     private int recv_id;
     OnRecyclerItemClicked listener;
-    private YouTubePlayer mYouTubePlayer;
 
-    public AdapterVideosRecycler(Activity activity, OnRecyclerItemClicked listener,
-                                 ArrayList<VideoDetails> al_videoDetails, int recv_id)
+    public AdapterVideosRecycler(Activity activity, OnRecyclerItemClicked listener, int recv_id)
     {
         this.activity = activity;
         this.listener = listener;
-        this.al_videoDetails = al_videoDetails;
         this.recv_id = recv_id;
     }
 
@@ -57,63 +53,35 @@ public class AdapterVideosRecycler extends RecyclerView.Adapter<AdapterVideosRec
     @Override
     public void onBindViewHolder(@NonNull final DataHolder holder, final int position)
     {
-        holder.txtv_videoName.setText(al_videoDetails.get(position).getVideoName());
-        holder.txtv_videoDuration.setText(al_videoDetails.get(position).getVideoDuration());
+        holder.txtv_videoName.setText(Utilities.al_videoDetails.get(position).getVideoName());
+        holder.txtv_videoDuration.setText(Utilities.al_videoDetails.get(position).getVideoDuration());
 
-        String video_id = extractVideoIdFromUrl(al_videoDetails.get(position).getVideoURL());
+        String video_id = extractVideoIdFromUrl(Utilities.al_videoDetails.get(position).getVideoURL());
 
         /*----------------------------- Load Thumbnail ---------------------------------------*/
 
-        String url = "https://img.youtube.com/vi/"+video_id+"/default.jpg";
-        //Picasso.get().load(url).into(holder.imgv_thumbnail);
+        String url = "https://img.youtube.com/vi/"+video_id+"/0.jpg";
+        Glide.with(activity).load(url).into(holder.imgv_thumbnail);
         System.out.println("URL=> "+url);
 
+        boolean show_thumbnail = Utilities.al_videoDetails.get(position).isShow_thumbnail();
+        if(show_thumbnail)
+        {
+            holder.imgv_thumbnail.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.imgv_thumbnail.setVisibility(View.GONE);
+        }
+
         /*----------------------------------------------------------------------------------------------*/
+
         holder.imgv_play.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
-                if(mYouTubePlayer!=null  && mYouTubePlayer.isPlaying())
-                {
-                    mYouTubePlayer.pause();
-                    mYouTubePlayer.release();
-                }
-                else if(mYouTubePlayer!=null  && !mYouTubePlayer.isPlaying())
-                {
-                    mYouTubePlayer.release();
-                }
-
-                String video_url = al_videoDetails.get(position).getVideoURL();
-                final String video_id = extractVideoIdFromUrl(video_url);
-
-                holder.youtube_player.initialize("AIzaSyAYtzVLsbTj4LtVElRxShJ1ytv6xHEhVdU",
-                new YouTubePlayer.OnInitializedListener()
-                {
-                    @Override
-                    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored)
-                    {
-                        mYouTubePlayer = youTubePlayer;
-                        try
-                        {
-                            if(mYouTubePlayer!=null)
-                            {
-                                mYouTubePlayer.loadVideo(video_id);
-                                mYouTubePlayer.play();
-                            }
-                        }catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult)
-                    {
-
-                    }
-                });
+                listener.onRecyclerItemClicked(recv_id, holder.itemView, Utilities.al_videoDetails.get(position), position);
             }
         });
     }
@@ -121,13 +89,13 @@ public class AdapterVideosRecycler extends RecyclerView.Adapter<AdapterVideosRec
     @Override
     public int getItemCount()
     {
-        return al_videoDetails.size();
+        return Utilities.al_videoDetails.size();
     }
 
     public class DataHolder extends RecyclerView.ViewHolder
     {
-        TextView txtv_videoName, txtv_videoDuration;
-        ImageView imgv_play;
+        TextView txtv_videoName, txtv_videoDuration ;
+        ImageView imgv_play, imgv_thumbnail;
         YouTubePlayerView youtube_player;
 
         public DataHolder(View itemView)
@@ -137,6 +105,7 @@ public class AdapterVideosRecycler extends RecyclerView.Adapter<AdapterVideosRec
             txtv_videoName = (TextView) itemView.findViewById(R.id.txtv_videoName);
             txtv_videoDuration = (TextView) itemView.findViewById(R.id.txtv_videoDuration);
             imgv_play = (ImageView) itemView.findViewById(R.id.imgv_play);
+            imgv_thumbnail = (ImageView) itemView.findViewById(R.id.imgv_thumbnail);
             youtube_player = (YouTubePlayerView) itemView.findViewById(R.id.youtube_player);
         }
     }

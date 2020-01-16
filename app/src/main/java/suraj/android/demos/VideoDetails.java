@@ -7,6 +7,7 @@ package suraj.android.demos;
 public class VideoDetails
 {
     String videoName, videoDuration, videoURL;
+    boolean show_thumbnail = true;
 
     public VideoDetails(String videoName, String videoDuration, String videoURL)
     {
@@ -37,5 +38,13 @@ public class VideoDetails
 
     public void setVideoURL(String videoURL) {
         this.videoURL = videoURL;
+    }
+
+    public boolean isShow_thumbnail() {
+        return show_thumbnail;
+    }
+
+    public void setShow_thumbnail(boolean show_thumbnail) {
+        this.show_thumbnail = show_thumbnail;
     }
 }

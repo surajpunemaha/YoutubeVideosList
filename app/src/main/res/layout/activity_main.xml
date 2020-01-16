@@ -7,11 +7,6 @@
     android:orientation="vertical"
     tools:context="suraj.android.demos.MainActivity">
 
-    <ImageView
-        android:id="@+id/imgv_demo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recv_videos"
         android:layout_width="match_parent"

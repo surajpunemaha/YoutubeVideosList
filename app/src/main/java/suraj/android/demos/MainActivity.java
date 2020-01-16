@@ -41,13 +41,17 @@ public class MainActivity extends YouTubeBaseActivity implements OnRecyclerItemC
     {
         Utilities.al_videoDetails.clear();
 
+        Utilities.al_videoDetails.add(new VideoDetails("Brilliant Magnetic Maharashtra Ad","2.01","https://www.youtube.com/watch?v=B0p4YT_4Wzk"));
+        Utilities.al_videoDetails.add(new VideoDetails("NZ vs IND: Battle of the Kings","0.45","https://www.youtube.com/watch?v=ZvEBGxZ1Pd0"));
         Utilities.al_videoDetails.add(new VideoDetails("Mission Mangal | Official Trailer","2.52","https://www.youtube.com/watch?v=q10nfS9V090"));
         Utilities.al_videoDetails.add(new VideoDetails("Android Oreo Launch","3.21","https://www.youtube.com/watch?v=tkOGeNoFD5o&t=21s"));
         Utilities.al_videoDetails.add(new VideoDetails("Surf Excel #RangLaayeSang, Holi Ad","1.00","https://www.youtube.com/watch?v=Zq7mN8oi8ds"));
+        Utilities.al_videoDetails.add(new VideoDetails("Nirmasalt TVC","0.35","https://www.youtube.com/watch?v=6GhaETxYQ_Q"));
         Utilities.al_videoDetails.add(new VideoDetails("Colgate School Director's Cut","0.40","https://www.youtube.com/watch?v=ww68GN-CQMY"));
         Utilities.al_videoDetails.add(new VideoDetails("Boost Ad Kohli","1.25","https://www.youtube.com/watch?v=n-YiJq4Xj_c"));
         Utilities.al_videoDetails.add(new VideoDetails("Parle Kismi Ad","0.30","https://www.youtube.com/watch?v=Br19BUAkGJQ"));
         Utilities.al_videoDetails.add(new VideoDetails("Kiss Me...Cadbury Dairy Milk Silk (Staircase Romance)","0.44","https://www.youtube.com/watch?v=ALaqqMY2m0k"));
+        Utilities.al_videoDetails.add(new VideoDetails("Amul Milk - Aage Badta Hai India","0.31","https://www.youtube.com/watch?v=uykVxooNL70"));
     }
 
     public void setVideoRecyclerAdapter()
@@ -80,7 +84,7 @@ public class MainActivity extends YouTubeBaseActivity implements OnRecyclerItemC
         if(old_posintion!=-1)
         {
             Utilities.al_videoDetails.get(old_posintion).setShow_thumbnail(true);
-            recv_videos.getAdapter().notifyDataSetChanged();
+            recv_videos.getAdapter().notifyItemChanged(old_posintion);
         }
 
         /*------------------------------------------------------------*/
